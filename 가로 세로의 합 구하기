@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int column_sum(int *pary[], int i);
+int row_sum(int *pary[], int i);
+
+int main(void){
+    
+    int ary1[6] = {1, 2, 3, 4, 5, 0};
+    int ary2[6] = {6, 7, 8, 9, 10, 0};
+    int ary3[6] = {11, 12, 13, 14, 15, 0};
+    int ary4[6] = {16, 17, 18, 19, 20, 0};
+    int ary5[6] = {0, 0, 0, 0, 0, 0};
+    
+    int *pary[5] = {ary1, ary2, ary3, ary4, ary5};
+    
+    for(int i = 0; i < 5; i++){
+        for(int j = 0; j < 6; j++){
+            if(i == 4){
+                pary[i][j] = column_sum(pary, j);
+            }
+            else if(j == 5){
+                pary[i][j] = row_sum(pary, i);
+            }
+            printf("%5d", pary[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int column_sum(int *pary[], int i){
+    return (pary[0][i] + pary[1][i] + pary[2][i] + pary[3][i]);
+}
+
+int row_sum(int *pary[], int i){
+    return (pary[i][0] + pary[i][1] + pary[i][2] + pary[i][3] + pary[i][4]);
+}
