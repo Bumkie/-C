@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+void sort(double *arr[]);
+
+struct grade{
+    int id;
+    char name[80];
+    int kor;
+    int eng;
+    int math;
+    int total;
+    double avg;
+    char rank;
+};
+struct grade student[5];
+
+int main(void){
+    int key = 0;
+    double *arr[5];
+    for(int i = 0; i < 5; i++){
+        printf("학번 : ");
+        scanf("%d", &student[i].id);
+        printf("이름 : ");
+        scanf("%s", student[i].name);
+        printf("국어, 영어, 수학 : ");
+        scanf("%d %d %d", &student[i].kor, &student[i].eng, &student[i].math);
+        student[i].total = student[i].kor + student[i].eng + student[i].math;
+        student[i].avg = student[i].total / 3.0;
+        arr[i] = &student[i].avg;
+        key = (int)student[i].avg / 10;
+        
+        switch (key) { //등급 부여
+            case 10 :
+            case 9:
+                student[i].rank = 'A';
+                break;
+            case 8 :
+                student[i].rank = 'B';
+                break;
+            case 7 :
+                student[i].rank = 'C';
+                break;
+            default :
+                student[i].rank = 'F';
+                break;
+        }
+    }
+    printf("# 정렬 전 데이터... \n");
+    for(int i = 0; i < 5; i++){
+        printf("%5d%5s%5d%5d%5d%5d%7.1lf%5c\n",
+               student[i].id, student[i].name, student[i].kor, student[i].eng,
+               student[i].math, student[i].total, student[i].avg, student[i].rank);
+    }
+    sort(arr);
+    printf("# 정렬 후 데이터... \n");
+    for(int i = 0; i < 5; i++){
+        printf("%5d%5s%5d%5d%5d%5d%7.1lf%5c\n",
+               student[i].id, student[i].name, student[i].kor, student[i].eng,
+               student[i].math, student[i].total, student[i].avg, student[i].rank);
+    }
+    
+    
+}
+
+void sort(double *arr[]){ //arr 정렬 구조체 교환 sort
+    double max = 0;
+    int key = 0;
+    bool flag = false;
+    struct grade temp;
+    
+    for(int i = 0; i < 4; i++){
+        flag = false;
+        max = *arr[i];
+        for(int j = i+1; j < 5; j++){
+            if(max < *arr[j]){
+                max = *arr[j];
+                key = j;
+                flag = true;
+            }
+        }
+        if(flag){
+            temp = student[i];
+            student[i] = student[key];
+            student[key] = temp; //struct로 교환
+        }
+    }
+}
